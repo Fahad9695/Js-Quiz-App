@@ -1,30 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUIZ APP USING JS</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="music.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #fff, #007bff);
+            backdrop-filter: blur(12px);
+            color: #333;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        /* Splash Screen */
+        .splash-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #f8f9fa, #007bff);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
+            animation: fadeInScale 1.5s ease-in-out forwards;
+            backdrop-filter: blur(15px);
+        }
+        
+        .splash-screen h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeInUp 2s ease-in-out forwards;
+        }
+        
+        .splash-screen p {
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInUp 2.5s ease-in-out forwards;
+        }
+        
+        .loader {
+            margin-top: 20px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 1;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+        
+        /* Main Container */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3), -10px -10px 30px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease-in-out, opacity 1s ease-in-out;
+            width: 90%;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideUpFade 1s ease-in-out forwards 1.5s;
+        }
+        
+        .container h2{
+            font-size: 24px;
+        }
+        
+        .container p{
+            margin-bottom: 20px;
+        }
+        
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Quiz Cards */
+        .quiz-cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeInBounce 1s ease-in-out forwards 2s;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .quiz-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes fadeInBounce {
+            0% { opacity: 0; transform: scale(0.8); }
+            60% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .card1 { background: #f7df1e; color: #fff; }
+        .card2 { background: #e34c26; color: #fff; }
+        .card3 { background: #264de4; color: #fff; }
+        
+        .quiz-card i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-card h3 {
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 95%;
+            }
+        
+            .quiz-card {
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 900px;
+                padding: 50px;
+            }
+        }
+        </style>
 </head>
+
 <body>
-    <div class="app">
-        <h1>Simple Quiz</h1>
-        <div class="quiz">
-            <h2 id="question">
-                Question goes here
-            </h2>
-            <div id="answer-buttons">
-                <button class="btn">Answer 1</button>
-                <button class="btn">Answer 2</button>
-                <button class="btn">Answer 3</button>
-                <button class="btn">Answer 4</button>
-            </div>
-            <button id="next-button">Next</button>
+    <div class="music-toggle" onclick="toggleMusicMenu()"><i class="fa-solid fa-music"></i></div>
+    <audio id="bgMusic" loop>
+        <source src="images/bgMusic.mp3" type="audio/mp3">
+    </audio>
+    
+    <div class="splash-screen" id="splash">
+        <h1>Welcome to the Ultimate Quiz</h1>
+        <p>Test your knowledge and challenge yourself!</p>
+        <div class="loader"></div>
+    </div>
+
+    <div class="container" id="quiz-container">
+        <h2>Ultimate Quiz App</h2>
+        <p>Get ready to start the quiz!</p>
+        <div class="quiz-cards">
+            <a href="javascript-quiz.html" class="quiz-card card1">
+                <i class="fab fa-js-square"></i>
+                <h3>JavaScript Quiz</h3>
+            </a>
+            <a href="html-quiz.html" class="quiz-card card2">
+                <i class="fab fa-html5"></i>
+                <h3>HTML Quiz</h3>
+            </a>
+            <a href="css-quiz.html" class="quiz-card card3">
+                <i class="fab fa-css3-alt"></i>
+                <h3>CSS Quiz</h3>
+            </a>
         </div>
     </div>
-    
 
-    <script src="script.js"></script>
-    
+    <script>
+        setTimeout(() => {
+            let splash = document.getElementById('splash');
+            splash.classList.add('hidden');
+
+            // Completely remove from the flow after transition
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 1000); // Wait for fade-out animation to complete
+
+            document.getElementById('quiz-container').classList.add('show-quiz');
+        }, 3000);
+
+
+
+    </script>
+    <script src="music.js"></script>
 </body>
+
 </html>

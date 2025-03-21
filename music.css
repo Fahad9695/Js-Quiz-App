@@ -1,0 +1,128 @@
+.music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.music-toggle i{
+    font-size: 20px;
+}
+
+.music-container {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: #eff9ff;
+    backdrop-filter: blur(10px);
+    padding: 12px;
+    border-radius: 12px;
+    display: none; /* Initially Hidden */
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.music-container.show {
+    display: flex;
+    top: 80px;
+    animation: slideDown 0.3s ease-out;
+}
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.buttonsDiv {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.music-btn, .volume-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover, .volume-btn:hover {
+    background: #444;
+}
+
+/* 🎚️ Volume Slider */
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 6px;
+    border-radius: 5px;
+    background: #666;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.volume-slider:hover {
+    background: #888;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 480px) {
+    .music-container {
+        right: 10px;
+        top: 10px;
+        padding: 10px;
+    }
+    .buttonsDiv {
+        flex-direction: column;
+    }
+    .volume-slider {
+        width: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .music-container {
+        padding: 12px;
+    }
+    .volume-slider {
+        width: 100px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .music-container {
+        top: 30px;
+        right: 30px;
+    }
+}

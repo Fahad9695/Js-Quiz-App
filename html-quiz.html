@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="music.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary-color: #E44D26;
+    --secondary-color: #F16529;
+    --accent-color: #333;
+    --text-color: white;
+    --correct-color: #28a745;
+    --wrong-color: #dc3545;
+    --button-hover: #E44D26;
+    --btn-bg: #333;
+    --box-shadow-light: -10px -10px 30px rgba(255, 255, 255, 0.1);
+    --box-shadow-dark: 10px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #fff, #007bff);
+    color: var(--text-color);
+    text-align: center;
+}
+
+.container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--box-shadow-dark), var(--box-shadow-light);
+    transition: transform 0.3s ease-in-out;
+    width: 90%;
+    max-width: 700px;
+}
+
+.container .header {
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container .header h1 {
+    font-size: 25px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.container .header .back-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: var(--primary-color);
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.progress-container {
+    padding-top:15px ;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 10px;
+    width: 0;
+    background: var(--primary-color);
+    transition: width 0.5s ease-in-out;
+}
+
+.questionBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+#timer {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: var(--btn-bg);
+    color: var(--text-color);
+    box-shadow: 4px 4px 10px var(--box-shadow-dark), -4px -4px 10px var(--box-shadow-light);
+}
+
+.option:hover {
+    background: var(--button-hover);
+    color: var(--text-color);
+    transform: translateY(-2px);
+}
+
+.correct {
+    background: var(--correct-color) !important;
+    color: var(--text-color) !important;
+}
+
+.wrong {
+    background: var(--wrong-color) !important;
+    color: var(--text-color) !important;
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+#resultImage {
+    display: block;
+    margin: 10px auto;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: var(--btn-bg);
+    color: var(--primary-color);
+    box-shadow: 4px 4px 10px var(--box-shadow-dark), -4px -4px 10px var(--box-shadow-light);
+}
+
+.back-btn:hover, .btn:hover {
+    transform: scale(1.05);
+    background: var(--button-hover);
+    color: var(--text-color);
+}
+
+.play-again {
+    background: var(--correct-color);
+    color: var(--text-color);
+}
+
+.home {
+    background: #007bff;
+    color: var(--text-color);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: var(--btn-bg);
+    color: var(--primary-color);
+    box-shadow: 4px 4px 10px var(--box-shadow-dark), -4px -4px 10px var(--box-shadow-light);
+}
+
+.buttons button:hover {
+    opacity: 0.9;
+    background: var(--button-hover);
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+    .question {
+        font-size: 1.2rem;
+    }
+    .btn, .buttons button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    .question {
+        font-size: 1rem;
+    }
+    .option {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .btn, .buttons button {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+}
+
+
+</style>
+</head>
+
+<body>
+    <div class="music-toggle" onclick="toggleMusicMenu()"><i class="fa-solid fa-music"></i></div>
+    <audio id="bgMusic" loop>
+        <source src="images/bgMusic.mp3" type="audio/mp3">
+    </audio>
+    <div class="container">
+        <div class="header">
+            <h1>Html Quiz</h1>
+            <a href="index.html" class="back-btn">Back</a>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <div class="questionBox">
+            <div class="question" id="question">Loading...</div>
+            <p id="timer"><i class="fa-solid fa-stopwatch"></i> 10s</p>
+        </div>
+        <div class="options" id="options"></div>
+        <img id="resultImage" src="" alt="Result" style="display: none; max-width: 200px;">
+        <p id="resultMessage"></p>
+        <div class="btn-container">
+            <button class="btn play-again" id="playAgain" style="display: none;">Play Again</button>
+            <button class="btn home" id="home" style="display: none;">Go to Home Page</button>
+        </div>
+        <div class="buttons hide-buttons">
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+        </div>
+    </div>
+
+
+    <script>
+        const questions = [
+            { question: "What does HTML stand for?", options: ["Hyper Transfer Markup Language", "Hyper Text Markup Language", "High Tech Markup Language", "Home Tool Markup Language"], answer: 1 },
+            { question: "Which HTML tag is used to define an internal stylesheet?", options: ["<script>", "<css>", "<style>", "<link>"], answer: 2 },
+            { question: "Which HTML element is used to specify a footer for a document or section?", options: ["<bottom>", "<footer>", "<section>", "<div>"], answer: 1 },
+            { question: "What is the correct HTML tag for inserting a line break?", options: ["<lb>", "<break>", "<br>", "<line>"], answer: 2 },
+            { question: "Which tag is used to create a hyperlink in HTML?", options: ["<a>", "<link>", "<href>", "<hyper>"], answer: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answeredQuestions = {}; // Stores user's answers
+        let timer;
+        let timeLeft = 10;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const progressBar = document.querySelector(".progress-bar");
+        const hideButtons = document.querySelector(".buttons");
+        const playAgainBtn = document.getElementById("playAgain");
+        const homeBtn = document.getElementById("home");
+        const nextBtn = document.getElementById("next");
+        const prevBtn = document.getElementById("prev");
+        const timerEl = document.getElementById("timer");
+
+        function startTimer() {
+            timeLeft = 10;
+            timerEl.innerHTML = `<i class="fa-solid fa-stopwatch"></i> ${timeLeft}s`;
+            timer = setInterval(() => {
+                timeLeft--;
+                timerEl.innerHTML = `<i class="fa-solid fa-stopwatch"></i> ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        function timeUp() {
+            const options = document.querySelectorAll(".option");
+            options.forEach(option => option.disabled = true);
+            const correctIndex = questions[currentQuestion].answer;
+            if (options[correctIndex]) {
+                options[correctIndex].classList.add("correct");
+            }
+            answeredQuestions[currentQuestion] = "timeout";
+            setTimeout(() => { nextQuestion(); }, 1000);
+        }
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = 10;
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            const q = questions[currentQuestion];
+            questionEl.textContent = q.question;
+            optionsEl.innerHTML = "";
+            q.options.forEach((opt, index) => {
+                const button = document.createElement("button");
+                button.textContent = opt;
+                button.classList.add("option");
+                if (answeredQuestions[currentQuestion] !== undefined) {
+                    button.disabled = true;
+                    if (answeredQuestions[currentQuestion] === "timeout" && index === q.answer) {
+                        button.classList.add("correct");
+                    } else if (index === answeredQuestions[currentQuestion]) {
+                        button.classList.add(index === q.answer ? "correct" : "wrong");
+                    } else if (index === q.answer) {
+                        button.classList.add("correct");
+                    }
+                } else {
+                    button.onclick = () => checkAnswer(index);
+                }
+                optionsEl.appendChild(button);
+            });
+            if (answeredQuestions[currentQuestion] === undefined) {
+                timerEl.style.display = "block";
+                startTimer();
+            } else {
+                timerEl.innerHTML = `<i class="fa-solid fa-stopwatch"></i> ${timeLeft}s`;
+            }
+            nextBtn.textContent = currentQuestion === questions.length - 1 ? "Finish" : "Next";
+            nextBtn.style.display = "inline-block";
+            nextBtn.style.opacity = answeredQuestions[currentQuestion] !== undefined ? "1" : "0.5";
+            nextBtn.style.pointerEvents = answeredQuestions[currentQuestion] !== undefined ? "auto" : "none";
+        }
+
+        function checkAnswer(selected) {
+            clearInterval(timer);
+            answeredQuestions[currentQuestion] = selected;
+            const options = document.querySelectorAll(".option");
+            options.forEach(option => option.disabled = true);
+            if (selected === questions[currentQuestion].answer) {
+                options[selected].classList.add("correct");
+                score++;
+            } else {
+                options[selected].classList.add("wrong");
+                options[questions[currentQuestion].answer].classList.add("correct");
+            }
+            nextBtn.style.opacity = "1";
+            nextBtn.style.pointerEvents = "auto";
+            setTimeout(() => { nextQuestion(); }, 1000);
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                clearInterval(timer);
+                timeLeft = 10;
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            questionEl.textContent = `You scored ${score} out of ${questions.length}!`;
+            optionsEl.innerHTML = "";
+            playAgainBtn.style.display = "block";
+            homeBtn.style.display = "block";
+            hideButtons.style.display = "none";
+            timerEl.style.display = "none";
+            nextBtn.style.display = "none";
+            prevBtn.style.display = "none";
+
+            const resultImage = document.getElementById("resultImage");
+            const resultMessage = document.getElementById("resultMessage");
+
+            if (score === questions.length) {
+                resultImage.src = "images/crown.png"; 
+                resultMessage.textContent = "Amazing! You're a html Master! ";
+            } else if (score >= questions.length / 4) {
+                resultImage.src = "images/thumbs-up.png";
+                resultMessage.textContent = "Good Job! Keep Improving! ";
+            } else {
+                resultImage.src = "images/try-again.png"; 
+                resultMessage.textContent = "Don't worry, practice makes perfect! ";
+            }
+
+            resultImage.style.display = "block"; // Show the image
+            resultImage.style.animation = "fadeIn 1s ease-in-out"; // Smooth effect
+        }
+
+        playAgainBtn.addEventListener("click", resetQuiz);
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answeredQuestions = {};
+            progressBar.style.width = "0%";
+            document.getElementById("resultImage").style.display = "none";
+            document.getElementById("resultMessage").style.display = "none";
+            playAgainBtn.style.display = "none";
+            homeBtn.style.display = "none";
+            hideButtons.style.display = "flex";
+            prevBtn.style.display = "inline-block";
+            nextBtn.style.display = "inline-block";
+            timerEl.style.display = "block";
+            optionsEl.innerHTML = ""; 
+            questionEl.textContent = ""; 
+            setTimeout(() => {
+                loadQuestion();
+            }, 100); 
+        }
+
+
+
+        nextBtn.addEventListener("click", nextQuestion);
+        prevBtn.addEventListener("click", prevQuestion);
+        homeBtn.addEventListener("click", () => window.location.href = "index.html");
+        document.addEventListener("DOMContentLoaded", () => { loadQuestion(); });
+    </script>
+
+<script src="music.js"></script>
+
+
+
+</body>
+
+</html>
